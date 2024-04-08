@@ -1,0 +1,35 @@
+﻿@model RegisterForm
+@{
+   // Layout = "_Layout";
+
+    ViewData["Title"] = "Register";
+}
+
+<div class="modal-content">
+	<div class="modal-header my-header">
+		<h5 class="modal-title display-6" id="myModalLabel">Register</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+        <form class="ajax-form" method="post" enctype="multipart/form-data" asp-area="Auth" asp-controller="Home" asp-action="RegisterModal">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Login, new {@class= "form-label"})
+                @Html.TextBoxFor(m => m.Login, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.Login, null, new {@class="text-danger"})
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.Password, new {@class= "form-label"})
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.Password, null, new {@class="text-danger"})
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(m => m.ConfirmPassword, new {@class= "form-label"})
+                @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new {@class="text-danger"})
+            </div>
+            <button class="btn btn-primary" type="submit">Register</button>
+            <a class="btn btn-secondary open-in-modal" asp-area="Auth" asp-controller="Home" asp-action="LoginModal">Login</a>
+        </form>
+	</div>
+</div>

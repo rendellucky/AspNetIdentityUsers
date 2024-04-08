@@ -1,0 +1,74 @@
+﻿@model UserForm
+@{
+    Layout = "_Layout";
+
+    var groups = ViewData["Groups"] as List<Group>;
+    var skills = ViewData["Skills"] as List<Skill>;
+    var groupList = new SelectList(groups, "Id", "Title");
+    //var skillList = new SelectList(skills, "Id", "Name");
+
+    ViewData["Title"] = "Create user";
+}
+
+<div>
+    <h1 class="my-header display-4">Create</h1>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card mt-1">
+                <div class="card-body">
+
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.FirstName, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.FirstName, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.FirstName, null, new {@class="text-danger"})
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.LastName, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.LastName, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.LastName, null, new {@class="text-danger"})
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Description, new {@class= "form-label"})
+                            @Html.TextAreaFor(m => m.Description, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Description, null, new {@class="text-danger"})
+                        </div>
+                        <div class="form-check mb-3">
+                            @Html.LabelFor(m => m.IsActive, new {@class= "form-check-label"})
+                            @Html.CheckBoxFor(m => m.IsActive, new {@class = "form-check-input"})
+                            @Html.ValidationMessageFor(m => m.IsActive, null, new {@class="text-danger"})
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Birthday, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.Birthday, "{0:yyyy-MM-dd}", new {@type="date", @class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Birthday, null, new {@class="text-danger"})
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.GroupId, new {@class= "form-label"})
+                            @Html.DropDownListFor(m => m.GroupId, groupList, new {@class = "form-select"})
+                            @Html.ValidationMessageFor(m => m.GroupId, null, new {@class="text-danger"})
+                        </div>
+                       @*  <div class="mb-3">
+                            @Html.LabelFor(m => m.SkillId, new {@class= "form-label"})
+                            @Html.DropDownListFor(m => m.SkillId, skillList, new {@class = "form-select"})
+                            @Html.ValidationMessageFor(m => m.SkillId, null, new {@class="text-danger"})
+                        </div> *@
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Image, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.Image, new {@class = "form-control", type="file", accept=".jpg,.png,.jpeg"})
+                            @Html.ValidationMessageFor(m => m.Image, null, new {@class="text-danger"})
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Images, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.Images, new {@class = "form-control", type="file", multiple = true, accept=".jpg,.png,.jpeg"})
+                            @Html.ValidationMessageFor(m => m.Images, null, new {@class="text-danger"})
+                        </div>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

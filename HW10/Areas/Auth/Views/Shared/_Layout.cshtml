@@ -1,0 +1,118 @@
+﻿@using System.Security.Claims;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - HW10</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/HW10.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+		  crossorigin="" />
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+			integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+			crossorigin=""></script>
+	@await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">HW10</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+					<ul class="navbar-nav flex-grow-1">
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+						</li>
+						@await RenderSectionAsync("Links", required: false)
+					</ul>
+				</div>
+				@if (User.Identity.IsAuthenticated)
+				{
+					var user = Context.Items["CurrentUser"] as UserIdentity;
+					<ul class="navbar-nav">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								@if (user.Image != null)
+								{
+									<img src="@user.Image.Src" class="card-img-top" style="width:40px; height:40px; border-radius:50%; border: 1px solid grey;">
+								}
+								<span>@user.Id</span> @User.Identity.Name
+							</a>
+
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								
+									<li>
+										<a class="dropdown-item"
+										   asp-area="Auth"
+										   asp-controller="User"
+										   asp-action="Index">Identity users</a>
+									</li>
+								
+								<li>
+									<a class="dropdown-item open-in-modal" asp-area="Auth" asp-controller="Home" asp-action="ProfileModal">
+										Profile
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item"
+									   asp-area="Auth"
+									   asp-controller="Home"
+									   asp-action="Logout">Logout</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				}
+				else
+				{
+					<ul class="navbar-nav ">
+						<li class="nav-item">
+							<a class="nav-link text-dark open-in-modal" asp-area="Auth" asp-controller="Home" asp-action="LoginModal">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark open-in-modal" asp-area="Auth" asp-controller="Home" asp-action="RegisterModal">Register</a>
+						</li>
+					</ul>
+				}
+			</div>
+		</nav>
+	</header>
+	<div class="container-fluid">
+		<main role="main" class="pb-3">
+			@RenderBody()
+			<!-- Modal -->
+			<div class="modal fade" id="my-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+
+	<footer class="border-top footer text-muted">
+		<div class="container">
+			&copy; 2024 - HW10 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+		</div>
+	</footer>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<script src="~/js/open-in-modal.js"></script>
+	<script src="~/js/user-map.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

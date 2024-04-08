@@ -1,0 +1,54 @@
+﻿@model UserUpdateForm;
+@{
+	Layout = "_Layout";
+
+	ViewData["Title"] = "Edit user";
+
+	var user = ViewData["User"] as UserIdentity;
+}
+
+<style>
+	#map {
+		height: 500px;
+	}
+</style>
+
+<div>
+	<h1 class="my-header display-4">Edit user</h1>
+	<div class="row">
+
+		<div class="col-md-6">
+			<div class="card mt-1">
+				<div class="card-body">
+					<h2>@user.UserName</h2>
+					<form method="post"
+						  enctype="multipart/form-data">
+						@Html.AntiForgeryToken()
+						<div>
+							@Html.Hidden("loginInput", user.UserName)
+						</div>
+						<div>
+							@Html.Hidden("UserId", user.Id)
+						</div>
+						@if(User.IsInRole("Admin"))
+						{
+							@for (int i = 0; i < Model.Roles.Count; i++)
+							{
+								@Html.HiddenFor(m => m.Roles[i].Name)
+								<div class="form-check mb-3">
+									@Html.LabelFor(m => m.Roles[i].Active, Model.Roles[i].Name, new { @class = "form-check-label" })
+									@Html.CheckBoxFor(m => m.Roles[i].Active, new { @class = "form-check-input" })
+								</div>
+							}
+						}
+						<div class="mb-3">
+							@Html.HiddenFor(m => m.MapMarkerId)
+						</div>
+						<div id="map"></div>
+						<button class="btn btn-primary" type="submit">Save</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

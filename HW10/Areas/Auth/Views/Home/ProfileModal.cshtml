@@ -1,0 +1,44 @@
+﻿@using System.Security.Claims;
+@{
+	var user = ViewData["CurrentUser"] as UserIdentity;
+}
+
+
+<div class="modal-content">
+	<div class="modal-header my-header">
+		<h5 class="modal-title display-6" id="myModalLabel">@user.UserName</h5>
+		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	</div>
+	<div class="modal-body">
+		<div class="text-center">
+			<div class="row">
+				<div class="card-body">
+					<div>
+						<img src="@user.Image?.Src" class="card-img-top" style="width:150px; height:150px; border-radius:50%; border: 1px solid black;"/>
+					</div>
+					<div>
+						<span class="header">Id: </span>
+						@user.Id
+					</div>
+					<div>
+						<span class="header">Name: </span>
+						@user.UserName
+					</div>
+					<div>
+						<span class="header">Email: </span>
+						@user.Email
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	</div>
+</div>
+
+<style>
+	.modal-title{
+		color: red;
+	}
+</style>

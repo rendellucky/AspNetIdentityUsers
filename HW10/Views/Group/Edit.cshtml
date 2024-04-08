@@ -1,0 +1,31 @@
+﻿@model Group
+@{
+	Layout = "_Layout";
+	var message = ViewData["Message"] as string;
+}
+
+<div>
+	<h1 class="my-header display-4">Edit @Model.Title</h1>
+	<div class="row">
+
+		<div class="col-md-6">
+			<div class="card mt-1">
+				<div class="card-body">
+					<form method="post" enctype="multipart/form-data">
+						<div class="mb-3">
+							@Html.LabelFor(m => m.Title, new {@class= "form-label"})
+							@Html.TextBoxFor(m => m.Title, new {@class = "form-control"})
+							@Html.ValidationMessageFor(m => m.Title, null, new {@class="text-danger"})
+							@if(!string.IsNullOrEmpty(message))
+							{
+								<div class="text-danger">@message</div>
+							}
+						</div>
+						<button class="btn btn-primary" type="submit">Save</button>
+						<a class="btn btn-primary" asp-area="" asp-controller="Group" asp-action="Index">Cancel</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

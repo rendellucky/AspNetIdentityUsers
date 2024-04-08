@@ -1,0 +1,70 @@
+﻿@model List<UserIdentity>
+@{
+	ViewData["Title"] = "Users";
+}
+
+<div class="text-center">
+	<h1 class="my-header display-4">Users</h1>
+</div>
+<div class="row">
+	<a class="btn btn-outline-success"
+	   asp-area="Auth" asp-controller="User" asp-action="Create">Create</a>
+</div>
+<div class="row">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Avatar</th>
+				<th>Username</th>
+				<th>Email</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var user in Model)
+			{
+				<tr>
+					<td>@user.Id</td>
+					<td>
+						@if (user.Image != null)
+						{
+							<img src="@user.Image.Src" class="card-img-top" style="width:60px; height:60px; border-radius:50%; border: 1px solid grey;">
+						}
+					</td>
+					<td>@user.UserName</td>
+					<td>@user.Email</td>
+					<td>
+						<div>
+							@if(user.UserName == User.Identity.Name)
+							{
+							<a class="btn btn-primary"
+							   asp-area="Auth" asp-controller="User" asp-action="EditAvatar"
+							   asp-route-id="@user.Id">Edit avatar</a>
+							}
+							@if (user.UserName == User.Identity.Name || User.IsInRole("Admin"))
+							{
+								<a class="btn btn-primary"
+								   asp-area="Auth" asp-controller="User" asp-action="Edit"
+								   asp-route-id="@user.Id">Edit</a>
+								<a class="btn btn-danger"
+								   asp-area="Auth" asp-controller="User" asp-action="ResetPassword"
+								   asp-route-id="@user.Id">Reset password</a>
+							}
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@section Links {
+	<li class="nav-item">
+		<a class="nav-link text-dark"
+		   asp-area="" asp-controller="Home" asp-action="AboutMe">
+			About me
+		</a>
+	</li>
+}

@@ -1,0 +1,61 @@
+﻿@model User
+@{
+    Layout = "_Layout";
+
+    ViewData["Title"] = Model.FirstName + " " + Model.LastName;
+}
+
+@section Styles {
+    <style>
+        .my-header {
+            color: red;
+        }
+    </style>
+}
+
+<p class="h1 my-header">You want to delete: @Model.FirstName @Model.LastName</p>
+<p class="h4 my-header">Are you sure?</p>
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-1">
+                <div class="card-body">
+                    <div>
+                        <span class="header">FirstName: </span>
+                        @Model.FirstName
+                    </div>
+                    <div>
+                        <span class="header">LastName: </span>
+                        @Model.LastName
+                    </div>
+                    <div>
+                        <span class="header">Group: </span>
+                        @Model.Group.Title
+                    </div>
+                    <div>
+                        <span class="header">Description: </span>
+                        @Model.Description
+                    </div>
+                    <div>
+                        @if (Model.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Disabled</span>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer mt-1">
+                    <form asp-area="" asp-controller="Home" asp-action="Delete"
+                          asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-warning mt-1">Delete</button>
+                        <a class="btn btn-primary mt-1" asp-area="" asp-controller="Home" asp-action="AboutMe">Cancel</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model SkillForm;
+@{
+    Layout = "_Layout";
+
+    ViewData["Title"] = "Create user skill";
+    var message = ViewData["Message"] as string;
+}
+
+<div>
+    <h1 class="my-header display-4">Create</h1>
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card mt-1">
+                <div class="card-body">
+
+                    <form method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Name, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+                            @Html.ValidationMessageFor(m => m.Name, null, new {@class="text-danger"})
+                            @if (!string.IsNullOrEmpty(message))
+                            {
+                                <div class="text-danger">@message</div>
+                            }
+                        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(m => m.Image, new {@class= "form-label"})
+                            @Html.TextBoxFor(m => m.Image, new {@class = "form-control", type="file", accept=".jpg,.png,.jpeg"})
+                            @Html.ValidationMessageFor(m => m.Image, null, new {@class="text-danger"})
+                        </div>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

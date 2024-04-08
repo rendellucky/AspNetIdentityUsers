@@ -1,0 +1,169 @@
+﻿@model List<User>
+@{
+	Layout = "_Layout";
+
+	var groups = ViewData["Groups"] as List<Group>;
+	var skills = ViewData["Skills"] as List<Skill>;
+	var userSkills = ViewData["UserSkills"] as List<UserSkill>;
+
+	ViewData["Title"] = "User Info";
+}
+@section Styles{
+	<style>
+		.visitCard {
+			width: 100%;
+			height: 200px;
+		}
+
+		.searchForm > input {
+			width: 100%;
+		}
+
+		.searchForm > div {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+		}
+
+			.searchForm > div > * {
+				width: 30%;
+			}
+
+		.searchForm > input {
+			padding: 5px;
+		}
+	</style>
+}
+
+@section Links {
+	<li class="nav-item">
+		<a class="nav-link text-dark"
+		   asp-area="" asp-controller="Group" asp-action="Index">
+			Groups
+		</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link text-dark"
+		   asp-area="" asp-controller="Skill" asp-action="Index">
+			Skills
+		</a>
+	</li>
+}
+
+<div>
+	<h4>Groups</h4>
+	<a class="btn btn-outline-success" asp-controller="Group" asp-action="Index">Усі групи</a>
+	<ul>
+		@foreach (var group in groups)
+		{
+			@Html.ListItemGroup(group)
+		}
+	</ul>
+
+	<h4>Skills</h4>
+	<a class="btn btn-outline-success" asp-controller="Skill" asp-action="Index">Усі скіли</a>
+	<ul>
+		@foreach (var skill in skills)
+		{
+			@Html.ListItemSkill(skill)
+		}
+	</ul>
+
+
+	<a class="btn btn-outline-success" asp-controller="Home" asp-action="Create">Create user</a>
+
+
+	<form method="post" class="searchForm" asp-controller="Home" asp-action="Search">
+		<input type="text" class="mt-1" name="SearchValue"  />
+		<div>
+			<button class="btn-primary m-1" type="submit">Search</button>
+			<a class="btn btn-info m-1" asp-area="" asp-controller="Home" asp-action="AboutMe">Clear</a>
+		</div>
+	</form>
+
+
+	<div class="row">
+		<a></a>
+		@foreach (var userInfo in Model)
+		{
+			<div class="col-md-6">
+				<div class="card mt-1">
+					@if (userInfo.Image != null)
+					{
+						<img src="@userInfo.Image.Src" class="card-img-top visitCard">
+					}
+					<div class="card-body">
+
+						@await Html.PartialAsync("_ImagesCarousel", userInfo.Images.Select(x=>x.Src).ToList())
+						<div>
+							<span class="header">FirstName: </span>
+							@userInfo.FirstName
+						</div>
+						<div>
+							<span class="header">Lastname: </span>
+							@userInfo.LastName
+						</div>
+						<div>
+							<span class="header">Group:</span>
+							@userInfo.Group.Title
+						</div>
+						<div>
+							<span class="header">Description:</span>
+							@userInfo.Description
+						</div>
+						<div>
+							<span class="header">Birthday:</span>
+							@userInfo.Birthday.ToString("dd.MM.yyyy")
+						</div>
+						@if (userSkills != null)
+						{
+							@foreach (var userSkill in userSkills)
+							{
+								@if (userSkill.User.Id == userInfo.Id)
+								{
+									@if (userSkill.Skill != null)
+									{
+										<hr/>
+										<div class="mt-2">
+											<span class="header">Skill:</span>
+											@userSkill.Skill.Name;
+										</div>
+									}
+									@if (userSkill.Level != null)
+									{
+										<div>
+											<span class="header">Level:</span>
+											<div class="progress">
+												<div class="progress-bar" role="progressbar" style="width: @userSkill.Level%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">@userSkill.Level%</div>
+											</div>
+										</div>
+									}
+								}
+							}
+						}
+					</div>
+					<div class="card-footer">
+						@if (userInfo.IsActive)
+						{
+							<span class="badge bg-success">Active</span>
+						}
+						else
+						{
+							<span class="badge bg-danger">Disabled</span>
+						}
+						<a class="btn btn-primary"
+						   asp-area="" asp-controller="Home" asp-action="Show"
+						   asp-route-id="@userInfo.Id">Show</a>
+						<a class="btn btn-primary"
+						   asp-area="" asp-controller="Home" asp-action="Edit"
+						   asp-route-id="@userInfo.Id">Edit</a>
+						<a class="btn btn-danger"
+						   asp-area="" asp-controller="Home" asp-action="DeleteConfirm"
+						   asp-route-id="@userInfo.Id">Delete</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+

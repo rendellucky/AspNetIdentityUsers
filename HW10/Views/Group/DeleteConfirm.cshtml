@@ -1,0 +1,39 @@
+﻿@model Group
+@{
+    Layout = "_Layout";
+
+    ViewData["Title"] = Model.Title;
+}
+
+@section Styles {
+    <style>
+        .my-header {
+            color: red;
+        }
+    </style>
+}
+
+<p class="h1 my-header">You want to delete: @Model.Title</p>
+<p class="h4 my-header">Are you sure?</p>
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-1">
+                <div class="card-body">
+                    <div>
+                        <span class="header">Title: </span>
+                        @Model.Title
+                    </div>
+                </div>
+                <div class="card-footer mt-1">
+                    <form asp-area="" asp-controller="Group" asp-action="Delete"
+                          asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-warning mt-1">Delete</button>
+                        <a class="btn btn-primary mt-1" asp-area="" asp-controller="Group" asp-action="Index">Cancel</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

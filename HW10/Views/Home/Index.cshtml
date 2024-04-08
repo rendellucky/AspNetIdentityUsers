@@ -1,0 +1,20 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+<style>
+	#map {
+		height: 700px;
+	}
+</style>
+
+<div id="map"></div>
+
+@section Links {
+	<li class="nav-item">
+		<a class="nav-link text-dark"
+		   asp-area="" asp-controller="Home" asp-action="AboutMe">
+			About me
+		</a>
+	</li>
+}

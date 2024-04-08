@@ -1,0 +1,50 @@
+﻿@model List<string>
+@{
+	int index = 0;
+	var id = "c" + Guid.NewGuid().ToString();
+	var deleteBtn = ViewData["DeleteBtn"] as bool?;
+	var userInfo = ViewData["UserInfo"] as User;
+}
+@if (Model.Count > 0)
+{
+	<div id="@id" class="carousel slide" data-bs-ride="carousel">
+		<div class="carousel-indicators">
+			@foreach (var src in Model)
+			{
+				<button type="button" data-bs-target="#@id" data-bs-slide-to="@index" class="@(index == 0 ? "active" : "")"
+						aria-current="true" aria-label="Slide @index"></button>
+				index++;
+			}
+		</div>
+		<div class="carousel-inner">
+			@{
+				index = 0;
+			}
+			@foreach (var src in Model)
+			{
+				<div class="carousel-item @(index == 0 ? "active" : "")">
+					<img src="@src" class="d-block w-100" alt="..." id="...">
+					<div class="carousel-caption d-none d-md-block">
+						@if (deleteBtn == true)
+						{
+							<form asp-area="" asp-controller="Home" asp-action="DeleteImageFromCarousel"
+								  asp-route-id="@userInfo.Id" method="post">
+								  <input type="hidden" id="ImageSrc" name="ImageSrc" value="@src"/>
+								<button type="submit" class="btn btn-warning mt-1">Delete</button>
+							</form>
+						}
+					</div>
+				</div>
+				index++;
+			}
+		</div>
+		<button class="carousel-control-prev" type="button" data-bs-target="#@id" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#@id" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+	</div>
+}

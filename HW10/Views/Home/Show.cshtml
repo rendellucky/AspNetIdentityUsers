@@ -1,0 +1,55 @@
+﻿@model User
+@{
+    Layout = "_Layout";
+
+    var imagesSrc = Model.Images.Select(x => x.Src).ToList();
+
+    ViewData["Title"] = Model.FirstName + " " + Model.LastName;
+}
+
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-6">@await Html.PartialAsync("_ImagesCarousel", imagesSrc)</div>
+        <div class="col-md-6">
+            <div class="card mt-1">
+                @if (Model?.Image != null)
+                {
+                    <img src="@Model.Image.Src" class="card-img-top visitCard">
+                }
+                
+                <div class="card-body">
+                    <div>
+                        <span class="header">FirstName: </span>
+                        @Model.FirstName
+                    </div>
+                    <div>
+                        <span class="header">LastName: </span>
+                        @Model.LastName
+                    </div>
+                    <div>
+                        <span class="header">Group: </span>
+                        @Model.Group.Title
+                    </div>
+                    <div>
+                        <span class="header">Description: </span>
+                        @Model.Description
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @if (Model.IsActive)
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Disabled</span>
+                    }
+                    <a class="btn btn-primary"
+                       asp-area="" asp-controller="Home" asp-action="AboutMe">
+                        Return
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
